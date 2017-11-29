@@ -1,0 +1,38 @@
+declare:
+    commands:
+        help:
+            aliases: [h]
+            description: Displays information about the command
+            permission: help.permission
+            permission-message: message
+            usage: usage
+                
+    translations:
+        bundled:
+            bundle: effects
+            embedded: [""]
+            folder: [""]
+            
+commands:
+    effect:
+        aliases: [e, eff]
+        description: "Create or cancel effects"
+        usage: /effect [option]
+        subcommands:
+            create:
+                aliases: [make, new]
+                description: Creates an effect
+                usage: /effect create [type] [name] (x, y, z) (x, y, z)
+                translation: bundled
+                completions:
+                    1: NONE
+                subcommands:
+                    help: declared
+            cancel:
+                aliases: [delete, remove]
+                description: Cancels an effect
+                usage: /effect cancel [name]
+                translation: bundled
+                subcommands:
+                    help: declared
+                    

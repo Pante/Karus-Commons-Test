@@ -1,0 +1,9 @@
+"create effect": "Created an {0} effect with the name: {1}"
+"cancel effect": "Cancelled the effect with the name: {0}"
+"invalid effect": "Invalid effect type: {0}"
+
+"invalid arguments": "Invalid number of arguments"
+"invalid player": "You must be a player to use this command"
+
+"existing name": "An effect with the name {0} already exists"
+"nonexisting name": No such effect with the name {0} exists"
