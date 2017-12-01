@@ -89,9 +89,9 @@ public class CreateCommand implements CommandExecutor {
         if (arguments.length() >= last && arguments.match().between(first, last).exact(INT, INT, INT)) {
             return new StaticLocation(new Location(
                     context.getPlayer().getWorld(), 
-                    arguments.get(2).as(Integer::parseInt),
-                    arguments.get(3).as(Integer::parseInt),
-                    arguments.get(4).as(Integer::parseInt)
+                    arguments.get(first).as(Integer::parseInt),
+                    arguments.get(first + 1).as(Integer::parseInt),
+                    arguments.get(first + 2).as(Integer::parseInt)
             ), new PathVector(), true);
             
         } else {

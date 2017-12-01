@@ -55,7 +55,6 @@ public class Registry {
         effects.put("animatedball", new AnimatedBall(FLAME));
         effects.put("arc", new Arc(FLAME));
         effects.put("atom", new Atom(FLAME, ENCHANTMENT));
-        effects.put("circle", new Circle(FLAME));
         effects.put("cloud", new Cloud(WHITE, WATER));
         effects.put("cone", new Cone(FLAME));
         effects.put("cube", new Cube(FLAME));
