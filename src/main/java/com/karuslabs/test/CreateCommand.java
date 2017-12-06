@@ -23,7 +23,8 @@
  */
 package com.karuslabs.test;
 
-import com.karuslabs.commons.animation.particles.effect.Effect;
+import com.karuslabs.commons.effect.Effect;
+import com.karuslabs.commons.effect.SuppliedExecutor;
 import com.karuslabs.commons.command.*;
 import com.karuslabs.commons.command.arguments.*;
 import com.karuslabs.commons.world.*;
@@ -38,11 +39,13 @@ public class CreateCommand implements CommandExecutor {
     
     private Plugin plugin;
     private Registry registry;
+    private SuppliedExecutor executor;
     
     
     public CreateCommand(Plugin plugin, Registry registry) {
         this.plugin = plugin;
         this.registry = registry;
+        this.executor = SuppliedExecutor.builder(plugin).async(true).delay(0).infinite().orientate(true).period(10).build();
     }
     
     
@@ -55,29 +58,29 @@ public class CreateCommand implements CommandExecutor {
         BoundLocation origin = parse(context, arguments, 2, 5);
         BoundLocation target = parse(context, arguments, 5, 8);
         
-        Effect effect = Effect.builder(plugin).async(true).delay(0).infinite().orientate(true).period(10).task(registry.getEffects().get(arguments.text()[0])).build();
-        registry.getScheduled().put(arguments.text()[1], effect.render(origin, target));
+        Effect effect = registry.getEffects().get(arguments.text()[0]);  
+        registry.getScheduled().put(arguments.text()[1], executor.render(effect.get(), origin, target));
         
-        context.getSender().sendMessage(context.translate("create effect", arguments.text()[0], arguments.text()[1]));
+        context.sendSource("create effect", arguments.text()[0], arguments.text()[1]);
         
         return true;
     }
     
     protected boolean validate(Context context, Arguments arguments) {
         if (!context.isPlayer()) {
-            context.getSender().sendMessage(context.translate("invalid player"));
+            context.sendSource("invalid player");
             return false;
             
         } else if (arguments.length() < 2) {
-            context.getSender().sendMessage(context.translate("invalid arguments"));
+            context.sendSource("invalid arguments");
             return false;
             
         } else if (!arguments.get(0).match(registry.getEffects()::containsKey)) {
-            context.getSender().sendMessage(context.translate("invalid effect", arguments.text()[0]));
+            context.sendSource("invalid effect", arguments.text()[0]);
             return false;
             
         } else if (arguments.get(1).match(registry.getScheduled()::containsKey)) {
-            context.getSender().sendMessage(context.translate("existing name", arguments.text()[1]));
+            context.sendSource("existing name", arguments.text()[1]);
             return false;
             
         } else {

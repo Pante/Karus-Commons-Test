@@ -23,12 +23,9 @@
  */
 package com.karuslabs.test;
 
-import com.karuslabs.commons.effect.particles.StandardParticles;
-import com.karuslabs.commons.effect.particles.Particles;
-import com.karuslabs.commons.effect.particles.ColouredParticles;
-import com.karuslabs.commons.animation.particles.*;
-import com.karuslabs.commons.animation.particles.effect.*;
-import com.karuslabs.commons.animation.particles.effects.*;
+import com.karuslabs.commons.effect.Effect;
+import com.karuslabs.commons.effect.effects.*;
+import com.karuslabs.commons.effect.particles.*;
 import com.karuslabs.commons.util.concurrent.Result;
 
 import java.util.*;
@@ -44,10 +41,9 @@ public class Registry {
     private static final Particles NOTE = StandardParticles.builder().particle(Particle.NOTE).amount(1).speed(0).build();
     private static final Particles WATER = StandardParticles.builder().particle(Particle.DRIP_WATER).amount(1).speed(0).build();
     
-    private static final Particles GREEN = ColouredParticles.builder().particle(Particle.SPELL).amount(1).colour(Color.GREEN).build();
     private static final Particles WHITE = ColouredParticles.builder().particle(Particle.SPELL).amount(1).colour(Color.WHITE).build();
     
-    private Map<String, Task> effects;
+    private Map<String, Effect> effects;
     private Map<String, Result<Void>> scheduled;
             
             
@@ -72,8 +68,9 @@ public class Registry {
         effects.put("heart", new Heart(FLAME));
         effects.put("hill", new Hill(FLAME));
         effects.put("line", new Line(FLAME));
-        effects.put("music", new Music(NOTE));
         effects.put("shield", new Shield(FLAME));
+        effects.put("smoke", new Smoke(FLAME));
+        effects.put("sphere", new Sphere(FLAME));
         effects.put("spiral", new Spiral(FLAME));
         effects.put("star", new Star(FLAME));
         effects.put("tornado", new Tornado(ENCHANTMENT, WATER));
@@ -84,7 +81,7 @@ public class Registry {
     }
     
     
-    public Map<String, Task> getEffects() {
+    public Map<String, Effect> getEffects() {
         return effects;
     }
     

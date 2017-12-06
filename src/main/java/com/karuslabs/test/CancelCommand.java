@@ -40,14 +40,19 @@ public class CancelCommand implements CommandExecutor {
     
     @Override
     public boolean execute(Context context, Arguments arguments) {
+        if (arguments.length() == 0) {
+            context.sendSource("invalid length");
+            return true;
+        }
+        
         Result<Void> effect;
         if ((effect = arguments.get(0).as(registry.getScheduled()::get)) != null) {
             registry.getScheduled().remove(arguments.text()[0], effect);
             effect.cancel(true);
-            context.getSender().sendMessage(context.translate("cancel effect", arguments.text()[0]));
+            context.sendSource("cancel effect", arguments.text()[0]);
             
         } else {
-            context.getSender().sendMessage(context.translate("nonexisting name", arguments.text()[0]));
+            context.sendSource("nonexisting name", arguments.text()[0]);
         }
         
         return true;
