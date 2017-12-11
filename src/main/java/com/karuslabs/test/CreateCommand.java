@@ -95,7 +95,7 @@ public class CreateCommand implements CommandExecutor {
                     arguments.get(first).as(Integer::parseInt),
                     arguments.get(first + 1).as(Integer::parseInt),
                     arguments.get(first + 2).as(Integer::parseInt)
-            ), new PathVector(), true);
+            ), new Position(), true);
             
         } else {
             return LivingEntityLocation.builder(context.getPlayer()).nullable(true).relative(true).update(true).build();

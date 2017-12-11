@@ -74,7 +74,7 @@ public class Registry {
         effects.put("spiral", new Spiral(FLAME));
         effects.put("star", new Star(FLAME));
         effects.put("tornado", new Tornado(ENCHANTMENT, WATER));
-        effects.put("trace", new Trace(ENCHANTMENT));
+        effects.put("trace", new Trace(FLAME, 600, 1, 5));
         effects.put("vortex", new Vortex(PORTAL));
         effects.put("warp", new Warp(PORTAL));
         effects.put("wave", new Wave(WATER, ENCHANTMENT));
