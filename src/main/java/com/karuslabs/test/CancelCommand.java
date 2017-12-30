@@ -28,6 +28,7 @@ import com.karuslabs.commons.command.arguments.Arguments;
 import com.karuslabs.commons.util.concurrent.Result;
 
 
+@Registration({"effect", "cancel"})
 public class CancelCommand implements CommandExecutor {
     
     private Registry registry;
@@ -41,7 +42,7 @@ public class CancelCommand implements CommandExecutor {
     @Override
     public boolean execute(Context context, Arguments arguments) {
         if (arguments.length() == 0) {
-            context.sendSource("invalid length");
+            context.sendColouredSource("invalid length");
             return true;
         }
         
@@ -49,10 +50,10 @@ public class CancelCommand implements CommandExecutor {
         if ((effect = arguments.get(0).as(registry.getScheduled()::get)) != null) {
             registry.getScheduled().remove(arguments.text()[0], effect);
             effect.cancel(true);
-            context.sendSource("cancel effect", arguments.text()[0]);
+            context.sendColouredSource("cancel effect", arguments.text()[0]);
             
         } else {
-            context.sendSource("nonexisting name", arguments.text()[0]);
+            context.sendColouredSource("nonexisting name", arguments.text()[0]);
         }
         
         return true;

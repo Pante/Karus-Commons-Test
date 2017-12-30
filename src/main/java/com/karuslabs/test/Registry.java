@@ -31,6 +31,7 @@ import com.karuslabs.commons.util.concurrent.Result;
 import java.util.*;
 
 import org.bukkit.*;
+import org.bukkit.util.Vector;
 
 
 public class Registry {
@@ -38,7 +39,6 @@ public class Registry {
     private static final Particles ENCHANTMENT = StandardParticles.builder().particle(Particle.ENCHANTMENT_TABLE).amount(1).speed(0).build();
     private static final Particles FLAME = StandardParticles.builder().particle(Particle.FLAME).amount(1).speed(0).build();
     private static final Particles PORTAL = StandardParticles.builder().particle(Particle.PORTAL).amount(1).speed(0).build();
-    private static final Particles NOTE = StandardParticles.builder().particle(Particle.NOTE).amount(1).speed(0).build();
     private static final Particles WATER = StandardParticles.builder().particle(Particle.DRIP_WATER).amount(1).speed(0).build();
     
     private static final Particles WHITE = ColouredParticles.builder().particle(Particle.SPELL).amount(1).colour(Color.WHITE).build();
@@ -52,12 +52,12 @@ public class Registry {
         scheduled = new HashMap<>();
         
         effects.put("animatedball", new AnimatedBall(FLAME));
-        effects.put("arc", new Arc(FLAME));
+        effects.put("arc", new Arc(FLAME)); //
         effects.put("atom", new Atom(FLAME, ENCHANTMENT));
         effects.put("cloud", new Cloud(WHITE, WATER));
         effects.put("cone", new Cone(FLAME));
-        effects.put("cube", new Cube(FLAME));
-        effects.put("cylinder", new Cylinder(FLAME));
+        effects.put("cube", new Cube(FLAME));  
+        effects.put("cylinder", new Cylinder(FLAME, 200, 1, 3, 0.4884726437F, new Vector(), new Vector(), 100, true, false)); 
         effects.put("dna", new DNA(FLAME, ENCHANTMENT, PORTAL));
         effects.put("discoball", new DiscoBall(FLAME, ENCHANTMENT));
         effects.put("donut", new Donut(FLAME));
@@ -75,8 +75,8 @@ public class Registry {
         effects.put("star", new Star(FLAME));
         effects.put("tornado", new Tornado(ENCHANTMENT, WATER));
         effects.put("trace", new Trace(FLAME, 600, 1, 5));
-        effects.put("vortex", new Vortex(PORTAL));
-        effects.put("warp", new Warp(PORTAL));
+        effects.put("vortex", new Vortex(FLAME));
+        effects.put("warp", new Warp(FLAME));
         effects.put("wave", new Wave(WATER, ENCHANTMENT));
     }
     

@@ -28,7 +28,6 @@ import com.karuslabs.commons.command.completion.Completion;
 import com.karuslabs.commons.locale.providers.Provider;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
 import org.bukkit.entity.Player;
@@ -51,36 +50,31 @@ public class CommonsPlugin extends JavaPlugin {
         commands.load("commands.yml");
         registry = new Registry();
         
-        Map<String, Command> subcommands = commands.getCommand("effect").getSubcommands();
-        
-        Command create = subcommands.get("create");
-        create.setExecutor(new CreateCommand(this, registry));
-        
+        Command create = commands.register(new CreateCommand(this, registry)).get(0);        
         Map<Integer, Completion> completions = create.getCompletions();
         completions.put(0, 
             (sender, argument) -> registry.getEffects().keySet().stream().filter(name -> name.startsWith(argument)).collect(toList())
         );
-        completions.put(2, completion(player -> player.getLocation().getBlockX()));
-        completions.put(3, completion(player -> player.getLocation().getBlockY()));
-        completions.put(4, completion(player -> player.getLocation().getBlockZ()));
+        completions.put(2, complete(player -> player.getLocation().getBlockX() + 5));
+        completions.put(3, complete(player -> player.getLocation().getBlockY()));
+        completions.put(4, complete(player -> player.getLocation().getBlockZ()));
         
-        completions.put(5, completion(player -> player.getLocation().getBlockX()));
-        completions.put(6, completion(player -> player.getLocation().getBlockY()));
-        completions.put(7, completion(player -> player.getLocation().getBlockZ()));
+        completions.put(5, complete(player -> player.getLocation().getBlockX() + 10));
+        completions.put(6, complete(player -> player.getLocation().getBlockY()));
+        completions.put(7, complete(player -> player.getLocation().getBlockZ()));
         
-        Command cancel = subcommands.get("cancel");
-        cancel.setExecutor(new CancelCommand(registry));
+        Command cancel = commands.register(new CancelCommand(registry)).get(0);
         cancel.getCompletions().put(0, 
             (sender, argument) -> registry.getScheduled().keySet().stream().filter(name -> name.startsWith(argument)).collect(toList())
         );
     }
     
     
-    protected Completion completion(Function<Player, Integer> function) {
+    protected Completion complete(Function<Player, Integer> function) {
         return (sender, argument) -> {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                return asList(String.valueOf(function.apply(player) + ThreadLocalRandom.current().nextInt(-9, 9)));
+                return asList(String.valueOf(function.apply(player)));
                 
             } else {
                 return EMPTY_LIST;

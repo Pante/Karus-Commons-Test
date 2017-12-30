@@ -35,6 +35,7 @@ import org.bukkit.plugin.Plugin;
 import static com.karuslabs.commons.command.arguments.Matches.*;
 
 
+@Registration({"effect", "create"})
 public class CreateCommand implements CommandExecutor {
     
     private Plugin plugin;
@@ -61,26 +62,26 @@ public class CreateCommand implements CommandExecutor {
         Effect effect = registry.getEffects().get(arguments.text()[0]);  
         registry.getScheduled().put(arguments.text()[1], executor.render(effect.get(), origin, target));
         
-        context.sendSource("create effect", arguments.text()[0], arguments.text()[1]);
+        context.sendColouredSource("create effect", arguments.text()[0], arguments.text()[1]);
         
         return true;
     }
     
     protected boolean validate(Context context, Arguments arguments) {
         if (!context.isPlayer()) {
-            context.sendSource("invalid player");
+            context.sendColouredSource("invalid player");
             return false;
             
         } else if (arguments.length() < 2) {
-            context.sendSource("invalid arguments");
+            context.sendColouredSource("invalid arguments");
             return false;
             
         } else if (!arguments.get(0).match(registry.getEffects()::containsKey)) {
-            context.sendSource("invalid effect", arguments.text()[0]);
+            context.sendColouredSource("invalid effect", arguments.text()[0]);
             return false;
             
         } else if (arguments.get(1).match(registry.getScheduled()::containsKey)) {
-            context.sendSource("existing name", arguments.text()[1]);
+            context.sendColouredSource("existing name", arguments.text()[1]);
             return false;
             
         } else {
