@@ -35,7 +35,6 @@ import org.bukkit.plugin.Plugin;
 import static com.karuslabs.commons.command.arguments.Matches.*;
 
 
-@Registration({"effect", "create"})
 public class CreateCommand implements CommandExecutor {
     
     private Plugin plugin;
@@ -51,37 +50,37 @@ public class CreateCommand implements CommandExecutor {
     
     
     @Override
-    public boolean execute(Context context, Arguments arguments) {
-        if (!validate(context, arguments)) {
+    public boolean execute(CommandSource source, Context context, Arguments arguments) {
+        if (!validate(source, context, arguments)) {
             return true;
         }
         
-        BoundLocation origin = parse(context, arguments, 2, 5);
-        BoundLocation target = parse(context, arguments, 5, 8);
+        BoundLocation origin = parse(source, context, arguments, 2, 5);
+        BoundLocation target = parse(source, context, arguments, 5, 8);
         
-        Effect effect = registry.getEffects().get(arguments.text()[0]);  
-        registry.getScheduled().put(arguments.text()[1], executor.render(effect.get(), origin, target));
+        Effect effect = registry.getEffects().get(arguments.raw()[0]);  
+        registry.getScheduled().put(arguments.raw()[1], executor.render(effect.get(), origin, target));
         
-        context.sendColouredSource("create effect", arguments.text()[0], arguments.text()[1]);
+        source.sendColouredTranslation("create effect", arguments.raw()[0], arguments.raw()[1]);
         
         return true;
     }
     
-    protected boolean validate(Context context, Arguments arguments) {
-        if (!context.isPlayer()) {
-            context.sendColouredSource("invalid player");
+    protected boolean validate(CommandSource source, Context context, Arguments arguments) {
+        if (!source.isPlayer()) {
+            source.sendColouredTranslation("invalid player");
             return false;
             
         } else if (arguments.length() < 2) {
-            context.sendColouredSource("invalid arguments");
+            source.sendColouredTranslation("invalid arguments");
             return false;
             
-        } else if (!arguments.get(0).match(registry.getEffects()::containsKey)) {
-            context.sendColouredSource("invalid effect", arguments.text()[0]);
+        } else if (!arguments.at(0).match(registry.getEffects()::containsKey)) {
+            source.sendColouredTranslation("invalid effect", arguments.raw()[0]);
             return false;
             
-        } else if (arguments.get(1).match(registry.getScheduled()::containsKey)) {
-            context.sendColouredSource("existing name", arguments.text()[1]);
+        } else if (arguments.at(1).match(registry.getScheduled()::containsKey)) {
+            source.sendColouredTranslation("existing name", arguments.raw()[1]);
             return false;
             
         } else {
@@ -89,17 +88,17 @@ public class CreateCommand implements CommandExecutor {
         }
     }
     
-    protected BoundLocation parse(Context context, Arguments arguments, int first, int last) {
-        if (arguments.length() >= last && arguments.match().between(first, last).exact(INT, INT, INT)) {
+    protected BoundLocation parse(CommandSource source, Context context, Arguments arguments, int first, int last) {
+        if (arguments.match().between(first, last).exact(INT, INT, INT)) {
             return new StaticLocation(new Location(
-                    context.getPlayer().getWorld(), 
-                    arguments.get(first).as(Integer::parseInt),
-                    arguments.get(first + 1).as(Integer::parseInt),
-                    arguments.get(first + 2).as(Integer::parseInt)
+                    source.asPlayer().getWorld(), 
+                    arguments.at(first).as(Integer::parseInt),
+                    arguments.at(first + 1).as(Integer::parseInt),
+                    arguments.at(first + 2).as(Integer::parseInt)
             ), new Position(), true);
             
         } else {
-            return LivingEntityLocation.builder(context.getPlayer()).nullable(true).relative(true).update(true).build();
+            return LivingEntityLocation.builder(source.asPlayer()).nullable(true).relative(true).update(true).build();
         }
     }
     

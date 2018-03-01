@@ -1,6 +1,3 @@
 name: Karus-Commons-Test
-version: 3.0.0
-description: A test implementation of Karus Commons
-author: [Karus Labs]
-website: "http://repo.karuslabs.com"
 main: com.karuslabs.test.CommonsPlugin
+version: 3.0.0-SNAPSHOT

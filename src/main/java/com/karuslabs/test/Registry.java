@@ -26,6 +26,7 @@ package com.karuslabs.test;
 import com.karuslabs.commons.effect.Effect;
 import com.karuslabs.commons.effect.effects.*;
 import com.karuslabs.commons.effect.particles.*;
+import com.karuslabs.commons.locale.annotation.EmbeddedResources;
 import com.karuslabs.commons.util.concurrent.Result;
 
 import java.util.*;
@@ -34,6 +35,7 @@ import org.bukkit.*;
 import org.bukkit.util.Vector;
 
 
+@EmbeddedResources({"resources/commands.yml"})
 public class Registry {
     
     private static final Particles ENCHANTMENT = StandardParticles.builder().particle(Particle.ENCHANTMENT_TABLE).amount(1).speed(0).build();

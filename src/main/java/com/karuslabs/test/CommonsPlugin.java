@@ -27,7 +27,6 @@ import com.karuslabs.commons.command.*;
 import com.karuslabs.commons.command.completion.Completion;
 import com.karuslabs.commons.locale.providers.Provider;
 
-import java.util.*;
 import java.util.function.Function;
 
 import org.bukkit.entity.Player;
@@ -35,7 +34,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.*;
-import static java.util.stream.Collectors.toList;
 
 
 public class CommonsPlugin extends JavaPlugin {
@@ -46,27 +44,8 @@ public class CommonsPlugin extends JavaPlugin {
     
     @Override
     public void onEnable() {
-        commands = new Commands(this, Provider.DETECTED);
-        commands.load("commands.yml");
+        commands = Commands.simple(this, Provider.NONE);
         registry = new Registry();
-        
-        Command create = commands.register(new CreateCommand(this, registry)).get(0);        
-        Map<Integer, Completion> completions = create.getCompletions();
-        completions.put(0, 
-            (sender, argument) -> registry.getEffects().keySet().stream().filter(name -> name.startsWith(argument)).collect(toList())
-        );
-        completions.put(2, complete(player -> player.getLocation().getBlockX() + 5));
-        completions.put(3, complete(player -> player.getLocation().getBlockY()));
-        completions.put(4, complete(player -> player.getLocation().getBlockZ()));
-        
-        completions.put(5, complete(player -> player.getLocation().getBlockX() + 10));
-        completions.put(6, complete(player -> player.getLocation().getBlockY()));
-        completions.put(7, complete(player -> player.getLocation().getBlockZ()));
-        
-        Command cancel = commands.register(new CancelCommand(registry)).get(0);
-        cancel.getCompletions().put(0, 
-            (sender, argument) -> registry.getScheduled().keySet().stream().filter(name -> name.startsWith(argument)).collect(toList())
-        );
     }
     
     
